@@ -42,7 +42,7 @@ class LoginFragment : Fragment() {
         // Inflate the layout for this fragment
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_login, container, false)
 
-        binding.signupButton.setOnClickListener {
+        binding.signinButton.setOnClickListener {
             showDialog()
             viewModel.authUser(
                 binding.phoneNumberEditText.text.toString(),
