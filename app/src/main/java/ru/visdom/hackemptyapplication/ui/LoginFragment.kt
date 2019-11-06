@@ -6,7 +6,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
@@ -54,8 +53,16 @@ class LoginFragment : Fragment() {
             hideDialog()
             when (it) {
                 LoginViewModel.AuthStatus.OK -> findNavController().navigate(LoginFragmentDirections.actionLoginFragmentToMainFragment())
-                LoginViewModel.AuthStatus.CONNECTION_ERROR -> Snackbar.make(binding.root, "Ошибка соединения", Snackbar.LENGTH_SHORT).show()
-                LoginViewModel.AuthStatus.WRONG_AUTH_INFORMATION -> Snackbar.make(binding.root, "Провеаьте введённые данные", Snackbar.LENGTH_SHORT).show()
+                LoginViewModel.AuthStatus.CONNECTION_ERROR -> Snackbar.make(
+                    binding.root,
+                    "Ошибка соединения",
+                    Snackbar.LENGTH_SHORT
+                ).show()
+                LoginViewModel.AuthStatus.WRONG_AUTH_INFORMATION -> Snackbar.make(
+                    binding.root,
+                    "Провеаьте введённые данные",
+                    Snackbar.LENGTH_SHORT
+                ).show()
                 else -> Unit
             }
         })

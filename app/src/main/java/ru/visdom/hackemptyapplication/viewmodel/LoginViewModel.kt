@@ -10,7 +10,6 @@ import ru.visdom.hackemptyapplication.data.user.exceptions.UserNotAuthException
 import ru.visdom.hackemptyapplication.data.user.network.dto.UserDto
 import ru.visdom.hackemptyapplication.data.user.repository.UserRepository
 import timber.log.Timber
-import java.lang.IllegalArgumentException
 import java.net.ConnectException
 
 class LoginViewModel(application: Application) : AndroidViewModel(application) {
@@ -44,10 +43,10 @@ class LoginViewModel(application: Application) : AndroidViewModel(application) {
             try {
                 repository.login(phone, password)
                 _authStatus.value = AuthStatus.OK
-            } catch (connectionException : ConnectException) {
+            } catch (connectionException: ConnectException) {
                 Timber.e(connectionException)
                 _authStatus.value = AuthStatus.CONNECTION_ERROR
-            } catch (userNotAuthException : UserNotAuthException) {
+            } catch (userNotAuthException: UserNotAuthException) {
                 Timber.e(userNotAuthException)
                 _authStatus.value = AuthStatus.WRONG_AUTH_INFORMATION
             }
@@ -61,7 +60,7 @@ class LoginViewModel(application: Application) : AndroidViewModel(application) {
 
     class Factory(val app: Application) : ViewModelProvider.Factory {
         override fun <T : ViewModel?> create(modelClass: Class<T>): T {
-            if(modelClass.isAssignableFrom(LoginViewModel::class.java)) {
+            if (modelClass.isAssignableFrom(LoginViewModel::class.java)) {
                 @Suppress("UNCHECKED_CAST")
                 return LoginViewModel(app) as T
             }

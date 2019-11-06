@@ -2,7 +2,6 @@ package ru.visdom.hackemptyapplication.data.user.repository
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import kotlinx.coroutines.Deferred
 import ru.visdom.hackemptyapplication.data.user.exceptions.UserNotAuthException
 import ru.visdom.hackemptyapplication.data.user.network.UserNetwork
 import ru.visdom.hackemptyapplication.data.user.network.dto.UserDto
