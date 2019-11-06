@@ -29,3 +29,5 @@ R
 "app/src/main/res/values/colors.xml,9\6\969faa2a5d9f5e8390e958d2c07f2cfd54676e6b
 R
 "app/src/main/res/values/styles.xml,f\7\f79cc2688e29fcbc286fda14ae07b27c9e83690f
+w
+Gapp/src/main/java/ru/visdom/hackemptyapplication/TimeHackApplication.kt,5\8\58731623a4df544869ab1b76f851d17f980e1153

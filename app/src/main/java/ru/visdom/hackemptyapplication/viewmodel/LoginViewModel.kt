@@ -5,32 +5,53 @@ import androidx.lifecycle.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
+import kotlinx.coroutines.launch
+import ru.visdom.hackemptyapplication.data.user.exceptions.UserNotAuthException
+import ru.visdom.hackemptyapplication.data.user.network.dto.UserDto
+import ru.visdom.hackemptyapplication.data.user.repository.UserRepository
+import timber.log.Timber
 import java.lang.IllegalArgumentException
+import java.net.ConnectException
 
 class LoginViewModel(application: Application) : AndroidViewModel(application) {
+
+    enum class AuthStatus {
+        NONE, OK, WRONG_AUTH_INFORMATION, CONNECTION_ERROR
+    }
+
+    private val repository: UserRepository = UserRepository()
 
     private val viewModelJob = SupervisorJob()
 
     private val viewModelScope = CoroutineScope(viewModelJob + Dispatchers.Main)
 
-    private var _eventNetworkError = MutableLiveData<Boolean>()
+    private var _authStatus = MutableLiveData<AuthStatus>()
 
-    val eventNetworkError: LiveData<Boolean>
-        get() = _eventNetworkError
+    val authStatus: LiveData<AuthStatus>
+        get() = _authStatus
 
-    private var _isNetworkErrorShown = MutableLiveData<Boolean>()
+    private var _user: MutableLiveData<UserDto> = repository._user
 
-    val isNetworkErrorShown: LiveData<Boolean>
-        get() = _isNetworkErrorShown
-
-
-    fun onNetworkErrorShown() {
-        _isNetworkErrorShown.value = true
-    }
+    private val user: LiveData<UserDto>
+        get() = _user
 
     init {
-        _eventNetworkError.value = false
-        _isNetworkErrorShown.value = false
+        _authStatus.value = AuthStatus.NONE
+    }
+
+    fun authUser(phone: String, password: String) {
+        viewModelScope.launch {
+            try {
+                repository.login(phone, password)
+                _authStatus.value = AuthStatus.OK
+            } catch (connectionException : ConnectException) {
+                Timber.e(connectionException)
+                _authStatus.value = AuthStatus.CONNECTION_ERROR
+            } catch (userNotAuthException : UserNotAuthException) {
+                Timber.e(userNotAuthException)
+                _authStatus.value = AuthStatus.WRONG_AUTH_INFORMATION
+            }
+        }
     }
 
     override fun onCleared() {
